@@ -1,7 +1,6 @@
-package ru.clevertec.model.Thread;
+package ru.clevertec.model.thread;
 
 import lombok.Getter;
-import lombok.Setter;
 import ru.clevertec.model.Message;
 import ru.clevertec.model.Topic;
 import ru.clevertec.util.RandomTimeoutGenerator;
@@ -11,13 +10,13 @@ import java.util.concurrent.TimeUnit;
 
 @Getter
 public class Producer implements Runnable {
-    private String name;
-    @Setter
-    private Topic topic;
-    private List<String> messages;
+    private final String name;
+    private final Topic topic;
+    private final List<String> messages;
 
-    public Producer(String name, List<String> messages) {
+    public Producer(String name, Topic topic, List<String> messages) {
         this.name = name;
+        this.topic = topic;
         this.messages = messages;
     }
 

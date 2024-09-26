@@ -1,7 +1,6 @@
-package ru.clevertec.model.Thread;
+package ru.clevertec.model.thread;
 
 import lombok.Getter;
-import lombok.Setter;
 import ru.clevertec.model.Message;
 import ru.clevertec.model.Topic;
 
@@ -11,16 +10,16 @@ import java.util.concurrent.CountDownLatch;
 
 @Getter
 public class Consumer implements Runnable {
-    private String name;
-    @Setter
-    private Topic topic;
-    @Setter
-    private CountDownLatch latch;
-    private List<Message> readMessages;
+    private final String name;
+    private final Topic topic;
+    private final CountDownLatch latch;
+    private final List<Message> readMessages;
     private int lastIndex;
 
-    public Consumer(String name) {
+    public Consumer(String name, Topic topic, CountDownLatch latch) {
         this.name = name;
+        this.topic = topic;
+        this.latch = latch;
         readMessages = new ArrayList<>();
     }
 

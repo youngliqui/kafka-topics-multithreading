@@ -1,4 +1,4 @@
-package ru.clevertec.model.Thread;
+package ru.clevertec.model.thread;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,9 +26,7 @@ class ConsumerTest {
     @BeforeEach
     void setUp() {
         latch = new CountDownLatch(2);
-        consumer = new Consumer("Test consumer");
-        consumer.setTopic(topic);
-        consumer.setLatch(latch);
+        consumer = new Consumer("Test consumer", topic, latch);
     }
 
     @Test

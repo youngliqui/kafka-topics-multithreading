@@ -14,8 +14,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 @Getter
 public class Topic {
-    private String name;
-    private List<Message> messages;
+    private final String name;
+    private final List<Message> messages;
 
     private final Semaphore semaphore;
     private final Lock lock = new ReentrantLock();
@@ -40,21 +40,18 @@ public class Topic {
 
     public Optional<Message> consumeMessage(int index) throws InterruptedException {
         semaphore.acquire();
+        lock.lock();
         try {
-            lock.lock();
-            try {
-                if (index >= messages.size()) {
-                    System.out.println("Wait! index: " + index + ", thread: " + Thread.currentThread().getName());
-                    condition.await(10, TimeUnit.SECONDS);
-                    System.out.println("Go! index: " + index + ", thread: " + Thread.currentThread().getName());
-                    return Optional.empty();
-                }
-                TimeUnit.MILLISECONDS.sleep(RandomTimeoutGenerator.generateRandomTimeout(500, 1500));
-                return Optional.ofNullable(messages.get(index));
-            } finally {
-                lock.unlock();
+            if (index >= messages.size()) {
+                System.out.println("Wait! index: " + index + ", thread: " + Thread.currentThread().getName());
+                condition.await(10, TimeUnit.SECONDS);
+                System.out.println("Go! index: " + index + ", thread: " + Thread.currentThread().getName());
+                return Optional.empty();
             }
+            TimeUnit.MILLISECONDS.sleep(RandomTimeoutGenerator.generateRandomTimeout(500, 1500));
+            return Optional.ofNullable(messages.get(index));
         } finally {
+            lock.unlock();
             semaphore.release();
         }
     }

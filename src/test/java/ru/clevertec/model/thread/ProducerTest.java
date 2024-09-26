@@ -1,4 +1,4 @@
-package ru.clevertec.model.Thread;
+package ru.clevertec.model.thread;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,8 +23,7 @@ class ProducerTest {
     @BeforeEach
     void setUp() {
         List<String> messages = List.of("message1", "message2");
-        producer = new Producer("test producer", messages);
-        producer.setTopic(topic);
+        producer = new Producer("test producer", topic, messages);
     }
 
     @Test
